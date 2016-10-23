@@ -4,5 +4,8 @@
     <string name="title_activity_redial">RedialActivity</string>
     <string name="message_alert_dialog">To Cancel Redial : Press "CANCEL"</string>
     <string name="message_time_remaining">Time Remaining : 0 Seconds</string>
+    <string name="redial_attempt_remaining">Redial Attempt Remaining : 0 </string>
+    <string name="redial_message">Redialling...</string>
+    <string name="call_detail">Unknown : 9999999999</string>
 
 </resources>

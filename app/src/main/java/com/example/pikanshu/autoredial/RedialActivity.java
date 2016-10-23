@@ -6,11 +6,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.Contacts;
+import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +25,7 @@ import android.widget.Toast;
 public class RedialActivity extends AppCompatActivity {
 
     private boolean redialCancled = false;
+    private String contactName = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +33,9 @@ public class RedialActivity extends AppCompatActivity {
         ///////////// Custom Alert Dialog //////////////////////////
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View promptView = layoutInflater.inflate(R.layout.custom_alert_dialog, null);
+
+        contactName = getContactName(ServiceReceiver.PHONE_NUMBER);
+        Log.d("DEBUG","Contact Name : " + contactName);
 
         final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         Button cancleButton = (Button) promptView.findViewById(R.id.cancelButton);
@@ -48,6 +56,10 @@ public class RedialActivity extends AppCompatActivity {
         ////////////////////////////////////////////////////
 
         final TextView timeRemainingView = (TextView) alertDialog.findViewById(R.id.timeRemainingView);
+        final TextView callDetailView = (TextView) alertDialog.findViewById(R.id.callDetailView);
+        callDetailView.setText(contactName + " : " + ServiceReceiver.PHONE_NUMBER);
+        final TextView redialAttemptRemainingView = (TextView) alertDialog.findViewById(R.id.redialAttemptRemainingView);
+        redialAttemptRemainingView.setText(" Redial Attempt Remaining : " + (ServiceReceiver.REDIAL_ATTEMPT - ServiceReceiver.redialCount));
 
         // since the counter on the alertdialog was starting from ServiceReceiver.redialPauseLength-1 and was ending on 1 sec
         // so the timer length increased  with 2 and display of timermaining decresed by one to reach 0.
@@ -80,6 +92,7 @@ public class RedialActivity extends AppCompatActivity {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
             if (!ServiceReceiver.PHONE_NUMBER.isEmpty()) {
+
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
                 callIntent.setData(Uri.parse("tel:"+ServiceReceiver.PHONE_NUMBER));
                 context.startActivity(callIntent);
@@ -89,5 +102,36 @@ public class RedialActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    public String getContactName(final String phoneNumber)
+    {
+        Uri uri;
+        String[] projection;
+        Uri mBaseUri = Contacts.Phones.CONTENT_FILTER_URL;
+        projection = new String[] { android.provider.Contacts.People.NAME };
+        try {
+            Class<?> c =Class.forName("android.provider.ContactsContract$PhoneLookup");
+            mBaseUri = (Uri) c.getField("CONTENT_FILTER_URI").get(mBaseUri);
+            projection = new String[] { "display_name" };
+        }
+        catch (Exception e) {
+        }
+
+
+        uri = Uri.withAppendedPath(mBaseUri, Uri.encode(phoneNumber));
+        Cursor cursor = this.getContentResolver().query(uri, projection, null, null, null);
+
+        String contactName = "Unknown";
+
+        if (cursor.moveToFirst())
+        {
+            contactName = cursor.getString(0);
+        }
+
+        cursor.close();
+        cursor = null;
+
+        return contactName;
     }
 }
