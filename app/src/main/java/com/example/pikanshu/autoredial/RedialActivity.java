@@ -25,8 +25,7 @@ public class RedialActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
+        ///////////// Custom Alert Dialog //////////////////////////
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View promptView = layoutInflater.inflate(R.layout.custom_alert_dialog, null);
 
@@ -46,42 +45,7 @@ public class RedialActivity extends AppCompatActivity {
         alertDialog.setView(promptView);
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-       /* AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        // Get the layout inflater
-        LayoutInflater inflater = getLayoutInflater();
-
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
-        builder.setView(inflater.inflate(R.layout.custom_alert_dialog, null))
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        redialCancled = true;
-                        finish();
-                    }
-                });
-        final AlertDialog alertDialog = builder.create();
-
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.show();*/
+        ////////////////////////////////////////////////////
 
         final TextView timeRemainingView = (TextView) alertDialog.findViewById(R.id.timeRemainingView);
 
