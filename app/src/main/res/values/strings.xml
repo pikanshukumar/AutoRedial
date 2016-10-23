@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Auto Redial</string>
+    <string name="title_activity_alert_dialog">AlertDialogActivity</string>
+    <string name="title_activity_redial">RedialActivity</string>
+    <string name="message_alert_dialog">To Cancel Redial : Press "CANCEL"</string>
+    <string name="message_time_remaining">Time Remaining : 0 Seconds</string>
+
+</resources>
