@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.infurnia.callpooja.MainActivity">
+    tools:context="com.example.pikanshu.autoredial.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,11 +21,10 @@
             android:id="@+id/checkedTextView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_vertical|center_horizontal"
             android:checkMark="?android:attr/listChoiceIndicatorMultiple"
             android:checked="false"
             android:gravity="center_vertical|center_horizontal"
-            android:layout_gravity="center_vertical|center_horizontal"
             android:text="Auto Redial"
             android:textAlignment="gravity"
             android:textSize="24sp"
@@ -34,72 +33,120 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:gravity="center_vertical|center_horizontal">
+
+            android:gravity="center_vertical|center_horizontal"
+
+            android:orientation="horizontal">
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:id="@+id/redial_attempts"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center_vertical"
                 android:text="Redial Attempts"
-                android:textSize="24sp"
-                android:textStyle="normal|bold"
                 android:textAllCaps="true"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:gravity="center_vertical|center_horizontal"
-                android:fitsSystemWindows="true" />
+                android:textSize="24sp"
+                android:textStyle="normal|bold" />
+
             <Spinner
                 android:id="@+id/max_number_of_redial_attempts"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorAccent" />
+                android:layout_weight="1" />
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Number of Redial Attempts"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@android:color/darker_gray" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:gravity="center_vertical|center_horizontal">
+
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:id="@+id/redial_pause_length"
-                android:text="Redial Delay"
-                android:textSize="24sp"
-                android:textStyle="normal|bold"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center_vertical"
+                android:text="Delay (in Seconds)"
                 android:textAllCaps="true"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:gravity="center_vertical|center_horizontal"
-                android:fitsSystemWindows="true" />
+                android:textSize="24sp"
+                android:textStyle="normal|bold" />
+
             <Spinner
                 android:id="@+id/redial_delay"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorAccent" />
+                android:layout_weight="1" />
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delay in redialling (Seconds)"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+
+            android:background="@android:color/darker_gray" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:gravity="center_vertical|center_horizontal">
+            android:gravity="center_vertical|center_horizontal"
+
+            android:orientation="horizontal">
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
                 android:id="@+id/call_not_connected"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center_vertical"
                 android:text="Call not Connected"
-                android:textSize="24sp"
-                android:textStyle="normal|bold"
                 android:textAllCaps="true"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:gravity="center_vertical|center_horizontal"
-                android:fitsSystemWindows="true" />
+                android:textSize="24sp"
+                android:textStyle="normal|bold" />
+
             <Spinner
                 android:id="@+id/offhook_threshold_time"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorAccent" />
+                android:layout_weight="1" />
         </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Redial if call disconnected under this time (in Seconds)"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+
+            android:background="@android:color/darker_gray" />
+
     </LinearLayout>
 
 </RelativeLayout>
