@@ -96,5 +96,8 @@ public class ServiceReceiver extends BroadcastReceiver {
             redialNeeded = true;
             PHONE_STATE_PREVIOUS = PHONE_STATE;
         }
+        else if(PHONE_STATE == CALL_STATE_RINGING){
+            wasRinging = true;
+        }
     }
 }
