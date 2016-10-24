@@ -1,5 +1,6 @@
 package com.example.pikanshu.autoredial;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -7,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.Spinner;
 
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ServiceReceiver.REDIAL_ATTEMPT = sharedPref.getInt("REDIAL_ATTEMPT",0);
         ServiceReceiver.redialPauseLength = sharedPref.getLong("redialPauseLength",3000);
         ServiceReceiver.Outgoing_OffHook_Time_Threshold = sharedPref.getLong("Outgoing_OffHook_Time_Threshold",5000);
+        ServiceReceiver.redialForSelected = sharedPref.getBoolean("redialForSelected",false);
 
         final CheckedTextView ctv = (CheckedTextView) findViewById(R.id.checkedTextView1);
         if(ServiceReceiver.redialFlag == false) ctv.setChecked(false);
@@ -127,6 +131,47 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         spinner_call_not_connected.setSelection((int)((ServiceReceiver.Outgoing_OffHook_Time_Threshold /1000)/5),true); //because the increament in the values is by 5
         // Spinner click listener
         spinner_call_not_connected.setOnItemSelectedListener(this);
+
+
+        final CheckBox checkBox = (CheckBox) findViewById(R.id.redial_for_selected_checkbox) ;
+        final Button selectContactButton = (Button) findViewById(R.id.action_select_contacts) ;
+        if(ServiceReceiver.redialForSelected){
+            checkBox.setChecked(ServiceReceiver.redialForSelected);
+            selectContactButton.setVisibility(View.VISIBLE);
+        }
+        else{
+            checkBox.setChecked(ServiceReceiver.redialForSelected);
+            selectContactButton.setVisibility(View.GONE);
+
+        }
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(!checkBox.isChecked()){
+                    ServiceReceiver.redialForSelected = false;
+                    selectContactButton.setVisibility(View.GONE);
+                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit();
+                    editor.putBoolean("redialForSelected",ServiceReceiver.redialForSelected);
+                    editor.commit();
+                }
+                else if(checkBox.isChecked()) {
+                    ServiceReceiver.redialForSelected = true;
+                    selectContactButton.setVisibility(View.VISIBLE);
+                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit();
+                    editor.putBoolean("redialForSelected",ServiceReceiver.redialForSelected);
+                    editor.commit();
+                }
+            }
+        });
+
+        selectContactButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,ContactSelectionActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

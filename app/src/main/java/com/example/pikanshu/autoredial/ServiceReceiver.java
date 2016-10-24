@@ -29,6 +29,8 @@ public class ServiceReceiver extends BroadcastReceiver {
     static private boolean wasRinging = false;
     static public boolean redialFlag = false;
     static public int redialCount = 0;
+    static public boolean redialForSelected = false;   // selected redial is checked
+    static private boolean redialForTheNumber = true; // if the number is selected for redial
 
     private long totalTimeOffHook;
     private boolean redialNeeded = true; // if the offHook Time during outgoing call is greater than a threshold then it's value is false
@@ -49,6 +51,7 @@ public class ServiceReceiver extends BroadcastReceiver {
             REDIAL_ATTEMPT = sharedPref.getInt("REDIAL_ATTEMPT",0);
             redialPauseLength = sharedPref.getLong("redialPauseLength",3000);
             Outgoing_OffHook_Time_Threshold = sharedPref.getLong("Outgoing_OffHook_Time_Threshold",5000);
+            redialForSelected = sharedPref.getBoolean("redialForSelected",false);
 
             phoneListener = new MyPhoneStateListener();
             telephony = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -62,6 +65,11 @@ public class ServiceReceiver extends BroadcastReceiver {
 //            Log.d("DEBUG", "BROADCAST RECEIVED State : " + state + " : " + callstate);
         }
 
+        if(redialForSelected && PHONE_NUMBER != null){
+            SharedPreferences sharedPref= PreferenceManager.getDefaultSharedPreferences(context);
+            if(PHONE_NUMBER.length() >= 10)redialForTheNumber = sharedPref.getBoolean(PHONE_NUMBER.substring((PHONE_NUMBER.length()-10),PHONE_NUMBER.length()),false);
+            else redialForTheNumber = false;
+        }
 //        Log.d("DEBUG", "BROADCAST RECEIVED 2");
 
 //        Log.d("DEBUG", "PHONE_STATE : " + PHONE_STATE);
@@ -83,7 +91,7 @@ public class ServiceReceiver extends BroadcastReceiver {
 
             if(totalTimeOffHook > Outgoing_OffHook_Time_Threshold)
                 redialNeeded = false;
-            if (redialCount < REDIAL_ATTEMPT && redialFlag && redialNeeded) {
+            if (redialCount < REDIAL_ATTEMPT && redialFlag && redialNeeded && redialForTheNumber) {
 //                Log.d("DEBUG", "REDIAL CALLED");
                 Intent i = new Intent(context, RedialActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -99,5 +107,8 @@ public class ServiceReceiver extends BroadcastReceiver {
         else if(PHONE_STATE == CALL_STATE_RINGING){
             wasRinging = true;
         }
+
+        if(redialForSelected && PHONE_NUMBER != null) redialForTheNumber = false;
+        else redialForTheNumber = true;
     }
 }

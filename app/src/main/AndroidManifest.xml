@@ -30,7 +30,13 @@
         <activity
             android:name=".RedialActivity"
             android:label="@string/title_activity_redial"
-            android:theme="@style/AlertDialogTheme"></activity>
+            android:theme="@style/AlertDialogTheme">
+        </activity>
+        <activity
+            android:theme="@style/AppTheme"
+            android:name=".ContactSelectionActivity"
+            android:label="@string/title_contact_selection" >
+        </activity>
     </application>
 
 </manifest>
