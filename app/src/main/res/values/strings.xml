@@ -8,5 +8,7 @@
     <string name="redial_attempt_remaining">Redial Attempt Remaining : 0 </string>
     <string name="redial_message">Redialling...</string>
     <string name="call_detail">Unknown : 9999999999</string>
+    <!--<string name="users_note">Note : You must restart this application to activate Auto-Redial after restart of your device</string>-->
+    <string name="users_note">Note : After you restart your device , To enable Auto-Redial, Please open this application once.</string>
 
 </resources>

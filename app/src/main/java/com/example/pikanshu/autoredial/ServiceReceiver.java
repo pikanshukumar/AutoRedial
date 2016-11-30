@@ -62,9 +62,12 @@ public class ServiceReceiver extends BroadcastReceiver {
             int callstate = telephony.getCallState();
             PHONE_STATE = callstate;
             if(callstate == CALL_STATE_RINGING) wasRinging = true;
+//            Toast.makeText(context, "Auto Redial Start", Toast.LENGTH_SHORT).show();
 //            Log.d("DEBUG", "BROADCAST RECEIVED State : " + state + " : " + callstate);
         }
-
+        else{
+//            Toast.makeText(context, "Auto Redial Active", Toast.LENGTH_SHORT).show();
+        }
         if(redialForSelected && PHONE_NUMBER != null){
             SharedPreferences sharedPref= PreferenceManager.getDefaultSharedPreferences(context);
             if(PHONE_NUMBER.length() >= 10)redialForTheNumber = sharedPref.getBoolean(PHONE_NUMBER.substring((PHONE_NUMBER.length()-10),PHONE_NUMBER.length()),false);
@@ -76,7 +79,7 @@ public class ServiceReceiver extends BroadcastReceiver {
 //        Log.d("DEBUG", "PHONE_STATE_PREVIOUS : " + PHONE_STATE_PREVIOUS);
 
 
-        Toast.makeText(context, "Auto Redial Active", Toast.LENGTH_SHORT).show();
+
         if (PHONE_STATE == CALL_STATE_OFFHOOK) {
             if(!wasRinging){
                 PHONE_STATE_PREVIOUS = PHONE_STATE;

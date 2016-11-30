@@ -31,61 +31,69 @@ public class RedialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         ///////////// Custom Alert Dialog //////////////////////////
-        LayoutInflater layoutInflater = LayoutInflater.from(this);
-        View promptView = layoutInflater.inflate(R.layout.custom_alert_dialog, null);
+        if (ServiceReceiver.redialPauseLength > 0) {
+            LayoutInflater layoutInflater = LayoutInflater.from(this);
+            View promptView = layoutInflater.inflate(R.layout.custom_alert_dialog, null);
 
-        contactName = getContactName(ServiceReceiver.PHONE_NUMBER);
-        Log.d("DEBUG","Contact Name : " + contactName);
+            contactName = getContactName(ServiceReceiver.PHONE_NUMBER);
+            Log.d("DEBUG", "Contact Name : " + contactName);
 
-        final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        Button cancleButton = (Button) promptView.findViewById(R.id.cancelButton);
+            final AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            Button cancleButton = (Button) promptView.findViewById(R.id.cancelButton);
 
 
-        cancleButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // btnAdd1 has been clicked
-                redialCancled = true;
-                if(alertDialog != null) alertDialog.dismiss();
-                finish();
-            }
-        });
+            cancleButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    // btnAdd1 has been clicked
+                    redialCancled = true;
+                    if (alertDialog != null) alertDialog.dismiss();
+                    finish();
+                }
+            });
 
-        alertDialog.setView(promptView);
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.show();
-        ////////////////////////////////////////////////////
+            alertDialog.setView(promptView);
+            alertDialog.setCanceledOnTouchOutside(false);
+            alertDialog.show();
+            ////////////////////////////////////////////////////
 
-        final TextView timeRemainingView = (TextView) alertDialog.findViewById(R.id.timeRemainingView);
-        final TextView callDetailView = (TextView) alertDialog.findViewById(R.id.callDetailView);
-        callDetailView.setText(contactName + " : " + ServiceReceiver.PHONE_NUMBER);
-        final TextView redialAttemptRemainingView = (TextView) alertDialog.findViewById(R.id.redialAttemptRemainingView);
-        redialAttemptRemainingView.setText(" Redial Attempt Remaining : " + (ServiceReceiver.REDIAL_ATTEMPT - ServiceReceiver.redialCount));
+            final TextView timeRemainingView = (TextView) alertDialog.findViewById(R.id.timeRemainingView);
+            final TextView callDetailView = (TextView) alertDialog.findViewById(R.id.callDetailView);
+            callDetailView.setText(contactName + " : " + ServiceReceiver.PHONE_NUMBER);
+            final TextView redialAttemptRemainingView = (TextView) alertDialog.findViewById(R.id.redialAttemptRemainingView);
+            redialAttemptRemainingView.setText(" Redial Attempt Remaining : " + (ServiceReceiver.REDIAL_ATTEMPT - ServiceReceiver.redialCount));
 
-        // since the counter on the alertdialog was starting from ServiceReceiver.redialPauseLength-1 and was ending on 1 sec
-        // so the timer length increased  with 2 and display of timermaining decresed by one to reach 0.
-        new CountDownTimer(ServiceReceiver.redialPauseLength + 2000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timeRemainingView.setText("Time Remaining : "+ ((millisUntilFinished-1000)/1000) + " Seconds");
-            }
+            // since the counter on the alertdialog was starting from ServiceReceiver.redialPauseLength-1 and was ending on 1 sec
+            // so the timer length increased  with 2 and display of timermaining decresed by one to reach 0.
+            new CountDownTimer(ServiceReceiver.redialPauseLength, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    timeRemainingView.setText("Time Remaining : " + ((millisUntilFinished ) / 1000) + " Seconds");
+                }
 
-            @Override
-            public void onFinish() {
-                //Do something after 100ms
+                @Override
+                public void onFinish() {
+                    //Do something after 100ms
 //                timeRemainingView.setText("");
 //                if(alertDialog != null) alertDialog.dismiss();
-                if(!redialCancled) {
-                    redial(RedialActivity.this);
-                    ServiceReceiver.redialCount++;
+                    if (!redialCancled) {
+                        redial(RedialActivity.this);
+                        ServiceReceiver.redialCount++;
+                    } else {
+                        ServiceReceiver.redialCount = 0; // since phone state will not change . So, redial block will not be called in ServiceReceiver.
+                        // Therefore, for next attempt of Calling redial Count have to be set to 0.
+                    }
+                    if (alertDialog != null) alertDialog.dismiss();
+                    finish();
                 }
-                else{
-                    ServiceReceiver.redialCount = 0; // since phone state will not change . So, redial block will not be called in ServiceReceiver.
-                    // Therefore, for next attempt of Calling redial Count have to be set to 0.
-                }
-                if(alertDialog != null) alertDialog.dismiss();
-                finish();
-            }
-        }.start();
+            }.start();
+
+        }
+        else{
+            redial(RedialActivity.this);
+            ServiceReceiver.redialCount++;
+            finish();
+
+        }
     }
 
     public void redial(Context context){
