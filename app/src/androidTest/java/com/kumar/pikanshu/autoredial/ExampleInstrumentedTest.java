@@ -1,4 +1,4 @@
-package com.example.pikanshu.autoredial;
+package com.kumar.pikanshu.autoredial;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

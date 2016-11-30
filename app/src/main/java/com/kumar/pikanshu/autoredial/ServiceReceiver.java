@@ -1,4 +1,4 @@
-package com.example.pikanshu.autoredial;
+package com.kumar.pikanshu.autoredial;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,13 +7,12 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-import android.widget.Toast;
 
 import static android.telephony.TelephonyManager.CALL_STATE_IDLE;
 import static android.telephony.TelephonyManager.CALL_STATE_OFFHOOK;
 import static android.telephony.TelephonyManager.CALL_STATE_RINGING;
-import static com.example.pikanshu.autoredial.MyPhoneStateListener.PHONE_STATE_PREVIOUS;
-import static com.example.pikanshu.autoredial.MyPhoneStateListener.PHONE_STATE;
+import static com.kumar.pikanshu.autoredial.MyPhoneStateListener.PHONE_STATE_PREVIOUS;
+import static com.kumar.pikanshu.autoredial.MyPhoneStateListener.PHONE_STATE;
 
 /**
  * Created by pika on 19/10/16.

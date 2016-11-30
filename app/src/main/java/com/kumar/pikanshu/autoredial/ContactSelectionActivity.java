@@ -1,6 +1,5 @@
-package com.example.pikanshu.autoredial;
+package com.kumar.pikanshu.autoredial;
 
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -12,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 

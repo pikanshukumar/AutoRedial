@@ -1,4 +1,4 @@
-package com.example.pikanshu.autoredial;
+package com.kumar.pikanshu.autoredial;
 
 import org.junit.Test;
 

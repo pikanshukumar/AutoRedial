@@ -1,10 +1,18 @@
-package com.example.pikanshu.autoredial;
+package com.kumar.pikanshu.autoredial;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,20 +20,37 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     static public final int MAX_REDIAL_ATTEMPT = 50; // Maximum number of redials supported by application
     static public final int MAX_REDIAL_DELAY = 10; // Maximum delay( in seconds)  supported by application
     static public final int MAX_offhookThreshold= 50; // Maximum threshold( in seconds) for detecting call not connected supported by application
-
+    private Context context;
+    private Activity activity;
+    private static final int PERMISSION_REQUEST_CODE_CONTACT= 1;
+    private static final int PERMISSION_REQUEST_CODE_TELEPHONE= 2;
+    private View view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        context = getApplicationContext();
+        activity = this;
+
+        if (!checkPermission()) {
+
+            requestPermission();
+
+        } else {
+
+            Snackbar.make(findViewById(android.R.id.content),"Permission already granted.",Snackbar.LENGTH_LONG).show();
+
+        }
 
         SharedPreferences sharedPref= PreferenceManager.getDefaultSharedPreferences(this);
         ServiceReceiver.redialFlag = sharedPref.getBoolean("redialFlag",false);
@@ -206,8 +231,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 editor = sharedPref.edit();
                 editor.putLong("Outgoing_OffHook_Time_Threshold", ServiceReceiver.Outgoing_OffHook_Time_Threshold);
                 editor.commit();
-
-//                Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
                 break;
 
         }
@@ -215,5 +238,74 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
+    }
+
+
+
+    private boolean checkPermission(){
+        int result = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS);
+        int result1 = ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE);
+        if (result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED){
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+    }
+
+    private void requestPermission(){
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity,Manifest.permission.READ_CONTACTS)){
+
+            Toast.makeText(context,"GPS permission allows us to access location data. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
+
+        } else {
+
+            ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.READ_CONTACTS},PERMISSION_REQUEST_CODE_CONTACT);
+        }
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity,Manifest.permission.CALL_PHONE)){
+
+            Toast.makeText(context,"GPS permission allows us to access location data. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
+
+        } else {
+
+            ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.CALL_PHONE},PERMISSION_REQUEST_CODE_TELEPHONE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE_CONTACT:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+
+                    Snackbar.make(findViewById(android.R.id.content),"Permission Granted, CONTACT",Snackbar.LENGTH_LONG).show();
+
+                } else {
+
+                    Snackbar.make(findViewById(android.R.id.content),"Permission Denied, CONTACT",Snackbar.LENGTH_LONG).show();
+
+                }
+                break;
+
+            case PERMISSION_REQUEST_CODE_TELEPHONE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+
+                    Snackbar.make(findViewById(android.R.id.content),"Permission Granted TELEPHONE.",Snackbar.LENGTH_LONG).show();
+
+                } else {
+
+                    Snackbar.make(findViewById(android.R.id.content),"Permission Denied TELEPHONE.",Snackbar.LENGTH_LONG).show();
+
+                }
+                break;
+
+        }
     }
 }
