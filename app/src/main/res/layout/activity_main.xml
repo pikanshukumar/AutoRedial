@@ -49,6 +49,7 @@
                 android:gravity="center_vertical"
                 android:text="Redial Attempts"
                 android:textAllCaps="true"
+                android:textColor="#2B3D4D"
                 android:textSize="22sp"
                 android:textStyle="normal|bold" />
 
@@ -63,6 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Number of Redial Attempts"
+            android:textColor="#2B3D4D"
             android:textSize="12sp" />
 
         <View
@@ -88,6 +90,7 @@
                 android:text="Delay (in Seconds)"
                 android:textAllCaps="true"
                 android:textSize="22sp"
+                android:textColor="#2B3D4D"
                 android:textStyle="normal|bold" />
 
             <Spinner
@@ -101,6 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Delay in redialling (Seconds)"
+            android:textColor="#2B3D4D"
             android:textSize="12sp" />
 
         <View
@@ -127,6 +131,7 @@
                 android:text="Call not Connected"
                 android:textAllCaps="true"
                 android:textSize="22sp"
+                android:textColor="#2B3D4D"
                 android:textStyle="normal|bold" />
 
             <Spinner
@@ -140,6 +145,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Redial if call disconnected under this time (in Seconds)"
+            android:textColor="#2B3D4D"
             android:textSize="12sp" />
 
         <View
@@ -164,6 +170,7 @@
                 android:layout_weight="4"
                 android:gravity="center_vertical"
                 android:text="Redial For Selected"
+                android:textColor="#2B3D4D"
                 android:textAllCaps="true"
                 android:textSize="22sp"
                 android:textStyle="normal|bold" />
@@ -179,6 +186,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Redial only for selected numbers"
+            android:textColor="#2B3D4D"
             android:textSize="12sp" />
 
         <Button
@@ -208,7 +216,7 @@
             android:textAllCaps="true"
             android:textSize="12sp"
             android:textStyle="bold"
-            android:textColor="#000000"
+            android:textColor="#388E3C"
             android:fontFamily="sans-serif" />
 
         <View

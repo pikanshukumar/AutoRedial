@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         spinner_redial_attempts.setAdapter(dataAdapter_redial_attempts);
 
         //initial selection
-        spinner_redial_attempts.setSelection(ServiceReceiver.REDIAL_ATTEMPT /2,true); // because the increament in the values is by 2
+        spinner_redial_attempts.setSelection(2,true); // 2 is position of selected element
         // Spinner click listener
         spinner_redial_attempts.setOnItemSelectedListener(this);
 
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         spinner_redial_delay.setAdapter(dataAdapter_redial_delay);
 
         //initial selection
-        spinner_redial_delay.setSelection((int)(ServiceReceiver.redialPauseLength/1000),true);
+        spinner_redial_delay.setSelection(2,true); // 2 is position of selected element
         // Spinner click listener
         spinner_redial_delay.setOnItemSelectedListener(this);
 
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         spinner_call_not_connected.setAdapter(dataAdapter_offhookThreshold);
 
         //initial selection
-        spinner_call_not_connected.setSelection((int)((ServiceReceiver.Outgoing_OffHook_Time_Threshold /1000)/5),true); //because the increament in the values is by 5
+        spinner_call_not_connected.setSelection(2,true); // 2 is position of selected element
         // Spinner click listener
         spinner_call_not_connected.setOnItemSelectedListener(this);
 
