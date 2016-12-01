@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
@@ -31,8 +32,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     static public final int MAX_offhookThreshold= 50; // Maximum threshold( in seconds) for detecting call not connected supported by application
     private Context context;
     private Activity activity;
-    private static final int PERMISSION_REQUEST_CODE_CONTACT= 1;
-    private static final int PERMISSION_REQUEST_CODE_TELEPHONE= 2;
+
+    int PERMISSION_ALL = 1;
+    String[] PERMISSIONS = {Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE};
+
+
     private View view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +46,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         context = getApplicationContext();
         activity = this;
 
-        if (!checkPermission()) {
 
-            requestPermission();
-
-        } else {
-
-            Snackbar.make(findViewById(android.R.id.content),"Permission already granted.",Snackbar.LENGTH_LONG).show();
-
+        if(!hasPermissions(this, PERMISSIONS)){
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
         }
 
         SharedPreferences sharedPref= PreferenceManager.getDefaultSharedPreferences(this);
@@ -193,8 +192,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         selectContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,ContactSelectionActivity.class);
-                startActivity(intent);
+                if(!hasPermissions(context, PERMISSIONS)){
+                    ActivityCompat.requestPermissions(activity, PERMISSIONS, PERMISSION_ALL);
+                }else {
+                    Intent intent = new Intent(MainActivity.this, ContactSelectionActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -241,71 +244,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
-
-    private boolean checkPermission(){
-        int result = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS);
-        int result1 = ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE);
-        if (result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED){
-
-            return true;
-
-        } else {
-
-            return false;
-
-        }
-    }
-
-    private void requestPermission(){
-
-        if (ActivityCompat.shouldShowRequestPermissionRationale(activity,Manifest.permission.READ_CONTACTS)){
-
-            Toast.makeText(context,"GPS permission allows us to access location data. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
-
-        } else {
-
-            ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.READ_CONTACTS},PERMISSION_REQUEST_CODE_CONTACT);
-        }
-
-        if (ActivityCompat.shouldShowRequestPermissionRationale(activity,Manifest.permission.CALL_PHONE)){
-
-            Toast.makeText(context,"GPS permission allows us to access location data. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
-
-        } else {
-
-            ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.CALL_PHONE},PERMISSION_REQUEST_CODE_TELEPHONE);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE_CONTACT:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-
-                    Snackbar.make(findViewById(android.R.id.content),"Permission Granted, CONTACT",Snackbar.LENGTH_LONG).show();
-
-                } else {
-
-                    Snackbar.make(findViewById(android.R.id.content),"Permission Denied, CONTACT",Snackbar.LENGTH_LONG).show();
-
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
                 }
-                break;
-
-            case PERMISSION_REQUEST_CODE_TELEPHONE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-
-                    Snackbar.make(findViewById(android.R.id.content),"Permission Granted TELEPHONE.",Snackbar.LENGTH_LONG).show();
-
-                } else {
-
-                    Snackbar.make(findViewById(android.R.id.content),"Permission Denied TELEPHONE.",Snackbar.LENGTH_LONG).show();
-
-                }
-                break;
-
+            }
         }
+        return true;
     }
 }
