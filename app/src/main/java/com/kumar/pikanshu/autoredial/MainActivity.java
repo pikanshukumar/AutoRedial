@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             redialAttemptOptions.add(i);
 
         // Creating adapter for spinner
-        ArrayAdapter<Integer> dataAdapter_redial_attempts = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_dropdown_item, redialAttemptOptions);
+        ArrayAdapter<Integer> dataAdapter_redial_attempts = new ArrayAdapter<Integer>(this, R.layout.spinner_item, redialAttemptOptions);
 
         // Drop down layout style - list view with radio button
         dataAdapter_redial_attempts.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             redialdelayOptions.add(i);
 
         // Creating adapter for spinner
-        ArrayAdapter<Integer> dataAdapter_redial_delay = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_dropdown_item, redialdelayOptions);
+        ArrayAdapter<Integer> dataAdapter_redial_delay = new ArrayAdapter<Integer>(this, R.layout.spinner_item, redialdelayOptions);
 
         // Drop down layout style - list view with radio button
         dataAdapter_redial_delay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             offhookThresholdOptions.add(i);
 
         // Creating adapter for spinner
-        ArrayAdapter<Integer> dataAdapter_offhookThreshold= new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_dropdown_item, offhookThresholdOptions);
+        ArrayAdapter<Integer> dataAdapter_offhookThreshold= new ArrayAdapter<Integer>(this, R.layout.spinner_item, offhookThresholdOptions);
 
         // Drop down layout style - list view with radio button
         dataAdapter_offhookThreshold.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
