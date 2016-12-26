@@ -129,14 +129,16 @@ public class ContactSelectionActivity extends AppCompatActivity {
 
 						phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
 
-						String normalizedNumber = phoneNumber.replaceAll(" ","").replaceAll("-", "");
+//						String normalizedNumber = phoneNumber.replaceAll(" ","").replaceAll("-", "");
+//						String normalizedNumber = phoneNumber;
 
-						if(normalizedNumber.length() >= 10){
-							String tempPhoneNumber = normalizedNumber.substring((normalizedNumber.length()-10),normalizedNumber.length());
-							tempContact = new Contact(name,tempPhoneNumber);
+						if(true){
+//							String tempPhoneNumber = normalizedNumber.substring((normalizedNumber.length()-10),normalizedNumber.length());
+//							String tempPhoneNumber = normalizedNumber;
+							tempContact = new Contact(name,phoneNumber);
 
 							if(!contacts.contains(tempContact)){
-								boolean selectionStatus = contactSelectionStatus.getBoolean(tempPhoneNumber,false);
+								boolean selectionStatus = contactSelectionStatus.getBoolean(phoneNumber,false);
 								tempContact.setSelected(selectionStatus);
 								contacts.add(tempContact);
 							}

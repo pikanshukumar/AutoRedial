@@ -53,9 +53,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         SharedPreferences sharedPref= PreferenceManager.getDefaultSharedPreferences(this);
         ServiceReceiver.redialFlag = sharedPref.getBoolean("redialFlag",false);
-        ServiceReceiver.REDIAL_ATTEMPT = sharedPref.getInt("REDIAL_ATTEMPT",0);
-        ServiceReceiver.redialPauseLength = sharedPref.getLong("redialPauseLength",3000);
-        ServiceReceiver.Outgoing_OffHook_Time_Threshold = sharedPref.getLong("Outgoing_OffHook_Time_Threshold",5000);
+        ServiceReceiver.REDIAL_ATTEMPT = sharedPref.getInt("REDIAL_ATTEMPT",4);
+        ServiceReceiver.redialPauseLength = sharedPref.getLong("redialPauseLength",2000);
+        ServiceReceiver.Outgoing_OffHook_Time_Threshold = sharedPref.getLong("Outgoing_OffHook_Time_Threshold",10000);
         ServiceReceiver.redialForSelected = sharedPref.getBoolean("redialForSelected",false);
 
         final CheckedTextView ctv = (CheckedTextView) findViewById(R.id.checkedTextView1);

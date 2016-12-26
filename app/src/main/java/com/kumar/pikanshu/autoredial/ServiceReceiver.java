@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.widget.Toast;
 
 import static android.telephony.TelephonyManager.CALL_STATE_IDLE;
 import static android.telephony.TelephonyManager.CALL_STATE_OFFHOOK;
@@ -44,12 +45,11 @@ public class ServiceReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         if(!telephonyRegistered) {
-
             SharedPreferences sharedPref= PreferenceManager.getDefaultSharedPreferences(context);
             redialFlag=sharedPref.getBoolean("redialFlag",false);
-            REDIAL_ATTEMPT = sharedPref.getInt("REDIAL_ATTEMPT",0);
-            redialPauseLength = sharedPref.getLong("redialPauseLength",3000);
-            Outgoing_OffHook_Time_Threshold = sharedPref.getLong("Outgoing_OffHook_Time_Threshold",5000);
+            REDIAL_ATTEMPT = sharedPref.getInt("REDIAL_ATTEMPT",4);
+            redialPauseLength = sharedPref.getLong("redialPauseLength",2000);
+            Outgoing_OffHook_Time_Threshold = sharedPref.getLong("Outgoing_OffHook_Time_Threshold",10000);
             redialForSelected = sharedPref.getBoolean("redialForSelected",false);
 
             phoneListener = new MyPhoneStateListener();

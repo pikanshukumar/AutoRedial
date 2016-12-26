@@ -47,7 +47,13 @@ public class Contact  {
         boolean equalFlag = false;
 
         if(o instanceof Contact){
-            if(this.mName.equals(((Contact) o).mName) && this.mPhoneNumber.equals(((Contact) o).mPhoneNumber)) equalFlag = true;
+            if(this.mName.equals(((Contact) o).mName)){
+                String s1 = this.mPhoneNumber.replaceAll(" ","").replaceAll("-", "");
+                String s2 = ((Contact) o).mPhoneNumber.replaceAll(" ","").replaceAll("-", "");
+                if(s1.equals(s2)){
+                    equalFlag = true;
+                }
+            }
         }
 
         return equalFlag;

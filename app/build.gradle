@@ -5,10 +5,10 @@ android {
     buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "com.kumar.pikanshu.autoredial"
-        minSdkVersion 16
+        minSdkVersion 9
         targetSdkVersion 24
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 6
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
